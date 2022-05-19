@@ -28,10 +28,7 @@ const createUser = async (req, res)=>{
             });
 
           }
-         res.status(201).json({
-             massage: "User create successfully",
-             user,
-         });
+        
      } else {
          res.status(400).json({
              massage: "Invalid data",
@@ -44,7 +41,7 @@ async function loginUser(req, res) {
      const { email, password } = req.body
      const user = await User.findOne({ email })
      if (user) {
-         const isMatch = await bcrypt.compare(password)
+         const isMatch = await bcrypt.compare(password, user.password)
          if (isMatch) {
              res.status(200).json({
                  username: user.username,
